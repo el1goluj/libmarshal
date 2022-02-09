@@ -1,0 +1,20 @@
+==libmarshal OpenCL API==
+The user API is declared in
+{{{
+#include "cl_marshal.h"
+}}}
+
+== Full In-Place Transposition on GPU ==
+{{{
+extern "C" bool cl_transpose(cl_command_queue queue, cl_mem src, int A, int a, int B, int b);
+}}}
+This function implements in-place transposition of a Aa by Bb float matrix of an OpenCL buffer src.
+Returns false if there is no error.
+
+== In-place AoS to ASTA (Array-of-structure-of-tiled-array) transposition on GPU ==
+{{{
+extern "C" bool cl_aos_asta(cl_command_queue queue, cl_mem src, int height, int width, int tile_size);
+}}}
+This function implements in-place transposition from A[height][width] to A[height/tile_size][width][tile_size]. It assumes height a multiple of tile size. By default, the local-memory barrier-synchnorization algorithm is used, and it will fallback to the cycle-following algorithm if the first fails.
+
+Returns false if there is no error.

@@ -1,0 +1,13 @@
+==PyOpenCL API==
+=== transpose ===
+{{{
+import transpose
+}}}
+
+{{{
+TransposeArrayInPlace(arr, a=1, b=1)
+}}}
+arr is a [[http://documen.tician.de/pyopencl/array.html| PyOpenCL array]]
+a and b are tile sizes for transposing the PyOpenCL array in place.
+
+Returns an array that has transposed shape and data. The original array's shape is not modified and its the data is re-laid out as transposed.

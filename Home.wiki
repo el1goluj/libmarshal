@@ -1,0 +1,68 @@
+== Introduction ==
+libmarshal is a CUDA and OpenCL library that implements fast, parallel in-place tiled in-place array transposition and layout conversion algorithms on the GPUs.
+
+It was used in on-the-fly data layout conversion in the DL system for OpenCL currently, but right now primarily serves as a stand-alone in-place layout conversion tool.
+
+It implements the algorithms mentioned in
+[[http://dl.acm.org/citation.cfm?id=2555266|this paper]].
+
+If you find this library useful, please cite:
+
+{{{
+#!bibtex
+
+@ARTICLE{iptranspose2015, 
+author={Gomez-Luna, J. and Sung, I. and Chang, Li-Wen and Gonzalez-Linares, J. and Guil Mata, N. and Hwu, Wen-Mei W.}, 
+journal={Parallel and Distributed Systems, IEEE Transactions on}, 
+title={In-Place Matrix Transposition on GPUs}, 
+year={2015}, 
+month={}, 
+volume={PP}, 
+number={99}, 
+pages={1-1}, 
+keywords={Arrays;Graphics processing units;Layout;Libraries;Multicore processing;Parallel processing;Throughput;GPU;In-Place;Transposition}, 
+doi={10.1109/TPDS.2015.2412549}, 
+ISSN={1045-9219},}
+} 
+}}}
+
+Please check out the library OpenCL [[API]] and [[Python API
+]] if you want to call this library in your project.
+
+For discussions, please go to [[https://groups.google.com/forum/?fromgroups=#!forum/libmarshal-discussion | the discussion group (hosted by Google groups) ]]
+== Software Requirements ==
+* Linux
+* CMake
+* GSL (GNU Scientific Library)
+
+== Hardware Requirements ==
+* NVIDIA Fermi generation of GPU or newer. Tested on:
+** Tesla C2050 with CUDA 4.1
+** Tesla K20 (Kepler) with CUDA 6.5
+** GeForce GTX 980 (Maxwell) with CUDA 6.5
+
+OR
+
+* AMD Evergreen generation of GPU or newer. Tested on:
+** Radeon HD 5870 with ATI Stream SDK 2.2
+** Radeon HD 7700 Series (Cape Verde) with ATI Stream SDK 2.7+ (fglrx driver 9.002)
+** Radeon R9 290 (Hawaii) with SDK 2.9
+
+== Build Instructions ==
+
+To build the OpenCL version for ATI GPUs
+{{{
+hg clone https://bitbucket.org/ijsung/libmarshal
+mkdir build
+cd build
+export ATISTREAMSDKROOT=/opt/AMDAPP
+cmake <path_to_libmarshal_checkout>
+make
+}}}
+
+To run the testsuite (in build directory)
+{{{
+./test/cl_unittest
+}}}
+
+Note: Please, make sure you choose the correct compilation parameters (e.g., GPU vendor, single/double precision) by double checking them in ~/test/cl_unittest.cc, ~/src/cl_marshal.cc, and ~/src/cl/cl_aos_asta.cl
